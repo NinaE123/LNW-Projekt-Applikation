@@ -44,7 +44,7 @@ void setup() {
 void draw() {
   background(255);
   image(fehlerbild, 10, 10, 600, 788);
-  Markierung();
+  /*Markierung();*/
   f_1();
   mouseposition();
   fehlerkennzeichnung();
