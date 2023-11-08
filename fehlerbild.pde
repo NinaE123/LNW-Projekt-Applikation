@@ -5,13 +5,12 @@
  Ellipsenfarbe transparent machen. Gemacht:)
  
  Schritt 2
- Funktion Markierung() rausnehmen! Alt, nicht mehr benötigt.
- Fehler anzahl, welche noch zu finden ist. 
+ Fehler Anzahl, welche noch zu finden ist. Gemacht:) 
  
  Schritt 3
  Einführung ins Spiel schreiben und darstellen
  Button um Spiel zu Starten. 
- (Effekte einbauen, zb, Zeit)
+ (Effekte einbauen, zb, Zeit/Timer)
  
  Schritt 4
  Schlussbutton, wenn alle 10 Fehler gefunden wurden. 
@@ -26,12 +25,15 @@ boolean fehler_1 = false;
 boolean fehler1, fehler2, fehler3, fehler4, fehler5, fehler6, fehler7, fehler8, fehler9, fehler10 = false;
 float x;
 float y;
+
 String kx, ky;
+String tofind;
 
 /* x-y Koordinaten und Radien der Fehler*/
 int x1, x2, x3, x4, x5, x6, x7, x8, x9, x10;
 int y1, y2, y3, y4, y5, y6, y7, y8, y9, y10;
 int r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
+int find;
 
 
 void setup() {
@@ -44,14 +46,11 @@ void setup() {
 void draw() {
   background(255);
   image(fehlerbild, 10, 10, 600, 788);
-  /*Markierung();*/
   f_1();
-  mouseposition();
   fehlerkennzeichnung();
 }
 
-/*  Mit Hilfe dieser Funktion wurden die Fehlerkoordinaten in eine Tabelle herausgeschrieben.
- */
+/**  Mit Hilfe dieser Funktion wurden die Fehlerkoordinaten in eine Tabelle herausgeschrieben.
 void mouseposition() {
   x = mouseX;
   y = mouseY;
@@ -62,27 +61,8 @@ void mouseposition() {
   text(kx, 200, 50);
   text(ky, 400, 50);
 }
-
-/**
- void mousePressed(){
- x = mouseX;
- y = mouseY;
- String kx = Float.toString(x);
- String ky = Float.toString(y);
- text(kx, 200, 50);
- text(ky, 250, 50);
- }
- **/
-
-
-/*Raus nehmen, alter Code)*/
-/*
-void Markierung() {
-  if (mousePressed && (mouseX > 250 && mouseX < 350)) {
-    fehler_1 = true;
-  }
-}
-*/
+Folgender Befehl wurde in den draw geschrieben.
+mouseposition(); **/
 
 void f_1() {
   if (fehler_1 == true) {
@@ -126,6 +106,8 @@ void fehlerkennzeichnung() {
   int r8 = 19;
   int r9 = 29;
   int r10 = 23;
+  
+  int find = 10;
 
 /* mit Alphawert um die Ellipse transparent zu machen*/
     fill(0, 153, 0, 125);
@@ -139,6 +121,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler1 == true) {
     ellipse(x1, y1, 2*r1, 2*r1);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 2*/
@@ -147,6 +130,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler2 == true) {
     ellipse(x2, y2, 2*r2, 2*r2);
+    find -= 1;
   }
    
 /*Ellipse um Fehler 3*/
@@ -155,6 +139,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler3 == true) {
     ellipse(x3, y3, 2*r3, 2*r3);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 4*/
@@ -163,6 +148,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler4 == true) {
     ellipse(x4, y4, 2*r4, 2*r4);
+    find -= 1;
   }
  
  /*Ellipse um Fehler 5*/
@@ -171,6 +157,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler5 == true) {
     ellipse(x5, y5, 2*r5, 2*r5);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 6*/
@@ -179,6 +166,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler6 == true) {
     ellipse(x6, y6, 2*r6, 2*r6);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 7*/
@@ -187,6 +175,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler7 == true) {
     ellipse(x7, y7, 2*r7, 2*r7);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 8*/
@@ -195,6 +184,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler8 == true) {
     ellipse(x8, y8, 2*r8, 2*r8);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 9*/
@@ -203,6 +193,7 @@ void fehlerkennzeichnung() {
   }
   if (fehler9 == true) {
     ellipse(x9, y9, 2*r9, 2*r9);
+    find -= 1;
   }
   
 /*Ellipse um Fehler 10*/
@@ -211,5 +202,12 @@ void fehlerkennzeichnung() {
   }
   if (fehler10 == true) {
     ellipse(x10, y10, 2*r10, 2*r10);
+    find -= 1;
     }
+   
+    String tofind = Integer.toString(find);
+    fill(0);
+    textSize(22);
+    text("Zu suchende Fehler: " + tofind,200,412);
+    
   }
