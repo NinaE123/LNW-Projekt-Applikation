@@ -76,11 +76,13 @@ void mouseposition() {
 
 
 /*Raus nehmen, alter Code)*/
+/*
 void Markierung() {
   if (mousePressed && (mouseX > 250 && mouseX < 350)) {
     fehler_1 = true;
   }
 }
+*/
 
 void f_1() {
   if (fehler_1 == true) {
