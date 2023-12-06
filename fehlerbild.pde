@@ -5,15 +5,18 @@
  Ellipsenfarbe transparent machen. Gemacht:)
  
  Schritt 2
- Fehler Anzahl, welche noch zu finden ist. Gemacht:) 
+ Fehler Anzahl, welche noch zu finden ist. Gemacht:)
  
  Schritt 3
- Einführung ins Spiel schreiben und darstellen
- Button um Spiel zu Starten. 
+ Einführung ins Spiel schreiben und darstellen: Gemacht:)
+ Button um Spiel zu Starten.                     Design!
  (Effekte einbauen, zb, Zeit/Timer)
  
  Schritt 4
- Schlussbutton, wenn alle 10 Fehler gefunden wurden. 
+ Schlussbutton, wenn alle 10 Fehler gefunden wurden. Gemacht:)
+ Titel fett.
+ Kleeblatt oder ähnliches einfügen.
+ Optional: Fehlerbild mit schönem weissen Rand verzieren. 
  Lob und Effekt
  
  Schritt 5
@@ -35,6 +38,8 @@ int y1, y2, y3, y4, y5, y6, y7, y8, y9, y10;
 int r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
 int find;
 
+boolean gameStarted = false;  // Definiert, wann das Spiel starten soll
+boolean endGame = false;
 
 void setup() {
   size(620, 808);
@@ -45,24 +50,65 @@ void setup() {
 
 void draw() {
   background(255);
-  image(fehlerbild, 10, 10, 600, 788);
-  f_1();
-  fehlerkennzeichnung();
+  Spielbeschreibung();
+  if (!gameStarted) {
+    displayStartButton();
+  } else {
+    image(fehlerbild, 10, 10, 600, 788);
+    f_1();
+    fehlerkennzeichnung();
+  }
+  Spielende();
+}
+
+void Spielbeschreibung() {
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Spielbeschreibung Fehlerbild:", 310, 190);
+  textSize(16);
+  text("Finde 10 Fehler im Bild durch Punktspiegelung im unteren Feld.", 310, 230);
+  text("Klickst du auf einen richtigen Fehler, erscheint ein grüner Kreis.", 310, 260);
+  text("Die verbleibende Anzahl Fehler siehst du in der Mitte.", 310, 290);
+  text("Klickst du auf Start, so beginnt das Spiel.", 310, 320);
+  text("Viel Erfolg!", 310, 350);
+  strokeWeight(3);
+  stroke(178, 223, 238);
+  line(170,208,450,208);
+}
+
+void displayStartButton() {
+  strokeWeight(3);
+  stroke(0);
+  fill(178, 223, 238);  // Green color
+  rect(210, 600, 200, 50, 20);
+  fill(0);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Start", 310, 625);
+}
+
+void mousePressed() {
+  if (!gameStarted) {
+    if (mouseX > 200 && mouseX < 400 && mouseY > 600 && mouseY < 650) {
+      gameStarted = true;
+    }
+  }
 }
 
 /**  Mit Hilfe dieser Funktion wurden die Fehlerkoordinaten in eine Tabelle herausgeschrieben.
-void mouseposition() {
-  x = mouseX;
-  y = mouseY;
-  String kx = Float.toString(x);
-  String ky = Float.toString(y);
-  textSize(32);
-  strokeWeight(32);
-  text(kx, 200, 50);
-  text(ky, 400, 50);
-}
-Folgender Befehl wurde in den draw geschrieben.
-mouseposition(); **/
+ void mouseposition() {
+ x = mouseX;
+ y = mouseY;
+ String kx = Float.toString(x);
+ String ky = Float.toString(y);
+ textSize(32);
+ strokeWeight(32);
+ text(kx, 200, 50);
+ text(ky, 400, 50);
+ }
+ Folgender Befehl wurde in den draw geschrieben.
+ mouseposition(); **/
 
 void f_1() {
   if (fehler_1 == true) {
@@ -106,16 +152,16 @@ void fehlerkennzeichnung() {
   int r8 = 19;
   int r9 = 29;
   int r10 = 23;
-  
+
   int find = 10;
 
-/* mit Alphawert um die Ellipse transparent zu machen*/
-    fill(0, 153, 0, 125);
-    strokeWeight(1);
-    stroke(0,153,0, 200);
-    
-    
-/*Ellipse um Fehler 1*/
+  /* mit Alphawert um die Ellipse transparent zu machen*/
+  fill(0, 153, 0, 125);
+  strokeWeight(1);
+  stroke(0, 153, 0, 200);
+
+
+  /*Ellipse um Fehler 1*/
   if ((dist(x1, y1, mouseX, mouseY) < r1) && (mousePressed)) {
     fehler1 = true;
   }
@@ -123,8 +169,8 @@ void fehlerkennzeichnung() {
     ellipse(x1, y1, 2*r1, 2*r1);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 2*/
+
+  /*Ellipse um Fehler 2*/
   if ((dist(x2, y2, mouseX, mouseY) < r2) && (mousePressed)) {
     fehler2 = true;
   }
@@ -132,8 +178,8 @@ void fehlerkennzeichnung() {
     ellipse(x2, y2, 2*r2, 2*r2);
     find -= 1;
   }
-   
-/*Ellipse um Fehler 3*/
+
+  /*Ellipse um Fehler 3*/
   if ((dist(x3, y3, mouseX, mouseY) < r3) && (mousePressed)) {
     fehler3 = true;
   }
@@ -141,8 +187,8 @@ void fehlerkennzeichnung() {
     ellipse(x3, y3, 2*r3, 2*r3);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 4*/
+
+  /*Ellipse um Fehler 4*/
   if ((dist(x4, y4, mouseX, mouseY) < r4) && (mousePressed)) {
     fehler4 = true;
   }
@@ -150,8 +196,8 @@ void fehlerkennzeichnung() {
     ellipse(x4, y4, 2*r4, 2*r4);
     find -= 1;
   }
- 
- /*Ellipse um Fehler 5*/
+
+  /*Ellipse um Fehler 5*/
   if ((dist(x5, y5, mouseX, mouseY) < r5) && (mousePressed)) {
     fehler5 = true;
   }
@@ -159,8 +205,8 @@ void fehlerkennzeichnung() {
     ellipse(x5, y5, 2*r5, 2*r5);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 6*/
+
+  /*Ellipse um Fehler 6*/
   if ((dist(x6, y6, mouseX, mouseY) < r6) && (mousePressed)) {
     fehler6 = true;
   }
@@ -168,8 +214,8 @@ void fehlerkennzeichnung() {
     ellipse(x6, y6, 2*r6, 2*r6);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 7*/
+
+  /*Ellipse um Fehler 7*/
   if ((dist(x7, y7, mouseX, mouseY) < r7) && (mousePressed)) {
     fehler7 = true;
   }
@@ -177,8 +223,8 @@ void fehlerkennzeichnung() {
     ellipse(x7, y7, 2*r7, 2*r7);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 8*/
+
+  /*Ellipse um Fehler 8*/
   if ((dist(x8, y8, mouseX, mouseY) < r8) && (mousePressed)) {
     fehler8 = true;
   }
@@ -186,8 +232,8 @@ void fehlerkennzeichnung() {
     ellipse(x8, y8, 2*r8, 2*r8);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 9*/
+
+  /*Ellipse um Fehler 9*/
   if ((dist(x9, y9, mouseX, mouseY) < r9) && (mousePressed)) {
     fehler9 = true;
   }
@@ -195,19 +241,37 @@ void fehlerkennzeichnung() {
     ellipse(x9, y9, 2*r9, 2*r9);
     find -= 1;
   }
-  
-/*Ellipse um Fehler 10*/
+
+  /*Ellipse um Fehler 10*/
   if ((dist(x10, y10, mouseX, mouseY) < r10) && (mousePressed)) {
     fehler10 = true;
   }
   if (fehler10 == true) {
     ellipse(x10, y10, 2*r10, 2*r10);
     find -= 1;
-    }
-   
-    String tofind = Integer.toString(find);
-    fill(0);
-    textSize(22);
-    text("Zu suchende Fehler: " + tofind,200,412);
-    
   }
+  
+  if (find == 0){
+    endGame = true;
+  }
+
+  String tofind = Integer.toString(find);
+  fill(0);
+  textSize(22);
+  textAlign(CENTER, CENTER);
+  text("Zu suchende Fehler: " + tofind, 310, 406);
+}
+
+void Spielende(){
+  if (endGame == true) {
+  fill(255);
+  rect(110,150,400,150,20);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Glückwunsch, du hast alle Fehler gefunden:)", 310, 200);
+  textSize(16);
+  text("Zeit:", 310, 230);
+  text("Spiel beendet", 310, 350);
+  }
+}
