@@ -10,13 +10,13 @@
  Schritt 3
  Einführung ins Spiel schreiben und darstellen: Gemacht:)
  Button um Spiel zu Starten.                     Design!
- (Effekte einbauen, zb, Zeit/Timer)
+ (Effekte einbauen, zb, Zeit/Timer)              Gemacht:)
  
  Schritt 4
  Schlussbutton, wenn alle 10 Fehler gefunden wurden. Gemacht:)
  Titel fett.
  Kleeblatt oder ähnliches einfügen.
- Optional: Fehlerbild mit schönem weissen Rand verzieren. 
+ Optional: Fehlerbild mit schönem weissen Rand verzieren.
  Lob und Effekt
  
  Schritt 5
@@ -24,6 +24,7 @@
  */
 
 PImage fehlerbild;
+PImage kleeblatt;
 boolean fehler_1 = false;
 boolean fehler1, fehler2, fehler3, fehler4, fehler5, fehler6, fehler7, fehler8, fehler9, fehler10 = false;
 float x;
@@ -38,12 +39,18 @@ int y1, y2, y3, y4, y5, y6, y7, y8, y9, y10;
 int r1, r2, r3, r4, r5, r6, r7, r8, r9, r10;
 int find;
 
+int starttime = 0;
+int stopTime;
+
+boolean stopTimeSaved = false;
+
 boolean gameStarted = false;  // Definiert, wann das Spiel starten soll
 boolean endGame = false;
 
 void setup() {
   size(620, 808);
   fehlerbild = loadImage("fehlerbild_mit_Kreisen.png");
+  kleeblatt = loadImage("kleeblatt.png");
   kx = "";
   ky = "";
 }
@@ -51,12 +58,16 @@ void setup() {
 void draw() {
   background(255);
   Spielbeschreibung();
+  image(kleeblatt, 245,425,140,140);
   if (!gameStarted) {
     displayStartButton();
   } else {
     image(fehlerbild, 10, 10, 600, 788);
     f_1();
+    rahmen();
     fehlerkennzeichnung();
+    spiegelzentrum();
+    
   }
   Spielende();
 }
@@ -65,16 +76,27 @@ void Spielbeschreibung() {
   fill(0);
   textAlign(CENTER, CENTER);
   textSize(20);
-  text("Spielbeschreibung Fehlerbild:", 310, 190);
+  text("Spielbeschreibung Fehlerbild:", 310, 185);
   textSize(16);
   text("Finde 10 Fehler im Bild durch Punktspiegelung im unteren Feld.", 310, 230);
-  text("Klickst du auf einen richtigen Fehler, erscheint ein grüner Kreis.", 310, 260);
-  text("Die verbleibende Anzahl Fehler siehst du in der Mitte.", 310, 290);
-  text("Klickst du auf Start, so beginnt das Spiel.", 310, 320);
-  text("Viel Erfolg!", 310, 350);
+  text("Das Spiegelzentrum ist mit Z beschriftet.", 310, 260);
+  text("Klickst du auf einen richtigen Fehler, erscheint ein grüner Kreis.", 310, 290);
+  text("Die verbleibende Anzahl Fehler siehst du in der Mitte.", 310, 320);
+  text("Klickst du auf Start, so beginnt das Spiel und die Zeit läuft.", 310, 350);
+  text("Viel Erfolg!", 310, 380);
   strokeWeight(3);
   stroke(178, 223, 238);
-  line(170,208,450,208);
+  line(170, 203, 450, 203);
+  strokeWeight(2);
+  line(610, 8, 610, 50);
+  line(605, 13, 605, 40);
+  line(590, 13, 605, 13);
+  line(583, 8, 610, 8);
+  
+  line(10, 756, 10, 798);
+  line(10, 798, 37, 798);
+  line(15, 793, 15, 766);
+  line(15, 793, 30, 793);
 }
 
 void displayStartButton() {
@@ -92,6 +114,7 @@ void mousePressed() {
   if (!gameStarted) {
     if (mouseX > 200 && mouseX < 400 && mouseY > 600 && mouseY < 650) {
       gameStarted = true;
+      starttime = millis();
     }
   }
 }
@@ -131,7 +154,7 @@ void fehlerkennzeichnung() {
   int x9 = 402;
   int x10 = 277;
 
-  int y1 = 768;
+  int y1 = 765;
   int y2 = 628;
   int y3 = 465;
   int y4 = 454;
@@ -250,28 +273,55 @@ void fehlerkennzeichnung() {
     ellipse(x10, y10, 2*r10, 2*r10);
     find -= 1;
   }
-  
-  if (find == 0){
+
+  if (find == 0) {
     endGame = true;
   }
 
   String tofind = Integer.toString(find);
   fill(0);
   textSize(22);
-  textAlign(CENTER, CENTER);
-  text("Zu suchende Fehler: " + tofind, 310, 406);
+  textAlign(LEFT,CENTER);
+  text("Zu suchende Fehler: " + tofind, 18, 404);
 }
 
-void Spielende(){
-  if (endGame == true) {
+void spiegelzentrum(){
   fill(255);
-  rect(110,150,400,150,20);
+  stroke(0);
+  ellipseMode(CENTER);
+  ellipse(310,404,15,15);
+  textAlign(CENTER,CENTER);
   fill(0);
-  textAlign(CENTER, CENTER);
-  textSize(20);
-  text("Glückwunsch, du hast alle Fehler gefunden:)", 310, 200);
-  textSize(16);
-  text("Zeit:", 310, 230);
-  text("Spiel beendet", 310, 350);
+  textSize(12);
+  text("Z", 310,404);
+}
+
+void Spielende() {
+  if (endGame == true) {
+    if (stopTimeSaved == false ) {
+      stopTimeSaved = true;
+      stopTime = millis();
+    }
+    fill(255);
+    stroke(178, 223, 238);
+    strokeWeight(5);
+    rect(110, 150, 400, 150, 20);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("Glückwunsch, du hast alle Fehler gefunden :)", 310, 210);
+    textSize(18);
+    text("Zeit: " + nf((stopTime- starttime)/1000) + " s", 310, 240);
+    text("Spiel beendet", 310, 350);
   }
+}
+
+void rahmen(){
+  stroke(255);
+  fill(255);
+  rect(0,0,18,808);
+  rect(593,0,27,808);
+  rect(0,0,620,15);
+  rect(0,791,620,17);
+  rect(0,387,620,34);
 }
